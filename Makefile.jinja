@@ -1,0 +1,42 @@
+.PHONY: all
+all: clean test build lint
+
+.PHONY: clean
+clean:
+	rm -rf ./dist
+
+.PHONY: fmt
+fmt:
+	go fmt ./...
+
+.PHONY: update
+update:
+	go list -f '{{ '{{' }}if not (or .Main .Indirect){{ '}}' }}{{ '{{' }}.Path{{ '}}' }}{{ '{{' }}end{{ '}}' }}' -m all | xargs --no-run-if-empty go get
+	go mod tidy
+
+.PHONY: lint
+lint:
+	golangci-lint run
+
+.PHONY: test
+test:{% if use_protobuf %} api{% endif %}
+	{%- if is_standalone %}
+	go test -cover -race ./...
+	{%- else %}
+	go test -cover -race ./pkg/...
+	{%- endif %}
+
+.PHONY: build
+build:{% if use_protobuf %} api{% endif %}
+	{%- if is_standalone %}
+	goreleaser build --snapshot --rm-dist
+	{%- endif %}
+
+{%- if use_protobuf %}
+
+.PHONY: api
+build: $(shell ls api/**/*.proto | sed 's|\.proto|.pb.go|g' | xargs)
+
+%.pb.go: %.proto
+	protoc -I . --go_out=plugins=grpc:. --go_opt=module=github.com/wabenet/dodo-{{ name }} $<
+{%- endif %}

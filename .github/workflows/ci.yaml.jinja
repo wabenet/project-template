@@ -33,7 +33,7 @@ jobs:
           go-version: {{ go_version }}
 
       - name: Test and coverage
-        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
 
       - name: Upload to codecov
         run: bash <(curl -s https://codecov.io/bash)
@@ -60,5 +60,5 @@ jobs:
 
       - name: Upload to codeclimate
         run: |
-          go test -race -coverprofile=c.out -covermode=atomic ./...
+          go test -race -coverprofile=c.out -covermode=atomic -coverpkg=./... ./...
           ./cc-test-reporter after-build -t gocov -p $(go list -m)

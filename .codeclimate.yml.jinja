@@ -5,3 +5,13 @@ version: "2"
 exclude_patterns:
   - "api/**/*.pb.go"
 {%- endif %}
+
+plugins:
+  fixme:
+    enabled: true
+  gofmt:
+    enabled: true
+  golint:
+    enabled: true
+  govet:
+    enabled: true

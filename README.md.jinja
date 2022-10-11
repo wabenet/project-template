@@ -8,6 +8,22 @@
 
 {{ description }}
 
+## installation
+
+This plugin is already included in the dodo default distribution.
+
+If you compile your own dodo distribution, you can add this plugin with the
+following generate config:
+
+```yaml
+plugins:
+  - import: github.com/wabenet/dodo-{{ name }}/pkg/plugin
+```
+
+Alternatively, you can install it as a standalone plugin by downloading the
+correct file for your system from the [releases page](https://github.com/wabenet/dodo-{{ name }}/releases),
+then copy it into the dodo plugin directory (`${HOME}/.dodo/plugins`).
+
 ## license & authors
 
 ```text

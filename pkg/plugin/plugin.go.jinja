@@ -1,0 +1,25 @@
+package plugin
+
+import (
+	"os"
+
+	"github.com/wabenet/dodo-core/pkg/plugin"
+)
+
+func RunMe() int {
+	m := plugin.Init()
+
+	if os.Getenv(plugin.MagicCookieKey) == plugin.MagicCookieValue {
+		m.ServePlugins( /* Add non-command plugins */ )
+
+		return 0
+	} else {
+		/* Execute root command plugin */
+
+		return 0
+	}
+}
+
+func IncludeMe(m plugin.Manager) {
+	m.IncludePlugins( /* Add all plugins */ )
+}

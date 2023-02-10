@@ -23,7 +23,7 @@ author_email:
 go_version:
   type: str
   help: What is the target Go version to use?
-  default: "1.18"
+  default: "1.20"
 
 is_standalone:
   type: bool

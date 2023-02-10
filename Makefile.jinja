@@ -29,7 +29,7 @@ test:{% if use_protobuf %} api{% endif %}
 .PHONY: build
 build:{% if use_protobuf %} api{% endif %}
 	{%- if is_standalone %}
-	goreleaser build --snapshot --rm-dist
+	goreleaser build --snapshot --clean
 	{%- endif %}
 
 {%- if use_protobuf %}

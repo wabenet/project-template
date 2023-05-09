@@ -13,7 +13,7 @@ jobs:
 
       - uses: actions/setup-go@v4
         with:
-          go-version: {{ go_version }}
+          go-version: "{{ go_version }}"
 
       - uses: goreleaser/goreleaser-action@v2
         with:
@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-go@v4
         with:
-          go-version: {{ go_version }}
+          go-version: "{{ go_version }}"
 
       - name: Test and coverage
         run: go test -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
@@ -50,7 +50,7 @@ jobs:
 
       - uses: actions/setup-go@v4
         with:
-          go-version: {{ go_version }}
+          go-version: "{{ go_version }}"
 
       - name: Set up test reporter
         run: |

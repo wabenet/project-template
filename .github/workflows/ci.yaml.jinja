@@ -17,7 +17,7 @@ jobs:
 
       - uses: goreleaser/goreleaser-action@v2
         with:
-          args: build --snapshot --rm-dist
+          args: build --snapshot --clean
   {%- endif %}
 
   codecov:

@@ -1,5 +1,9 @@
 ---
 _subdirectory: copier-template
+_jinja_extensions:
+    - 'copier_templates_extensions.TemplateExtensionLoader'
+    - 'jinja2_time.TimeExtension'
+    - 'extensions/context.py:ContextUpdater'
 
 name:
   type: str
@@ -14,19 +18,6 @@ lifecycle:
   help: What status is the project in?
   default: experimental
 
-author_name:
-  type: str
-  help: Enter your name
-
-author_email:
-  type: str
-  help: Enter your email address
-
-go_version:
-  type: str
-  help: What is the target Go version to use?
-  default: "1.20"
-
 is_standalone:
   type: bool
   help: Create a main entrypoint and build a standalone plugin binary?
@@ -36,3 +27,13 @@ use_protobuf:
   type: bool
   help: Does the project add new plugin types with probuf definitions?
   default: false
+
+# Versions - will not be prompted
+
+go_version:
+  default: "1.20"
+  when: false
+
+golangci_version:
+  default: "v1.59.1"
+  when: false

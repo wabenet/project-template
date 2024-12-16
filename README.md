@@ -1,5 +1,5 @@
 [![copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
-![license](https://img.shields.io/github/license/wabenet/copier-dodo-plugin)
+![license](https://img.shields.io/github/license/wabenet/project-template)
 
 # wabenet project template
 
@@ -18,7 +18,7 @@ $ pip install copier copier-templates-extensions jinja2-time
 To create a new project from this template, run:
 
 ```shell
-$ copier copy --trust gh:wabenet/copier-dodo-plugin <path/to/project>
+$ copier copy --trust gh:wabenet/project-template <path/to/project>
 ```
 
 To update your project to the latest version, run:

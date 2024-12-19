@@ -1,0 +1,34 @@
+---
+name: 'Build'
+description: 'Builds the code and optionally creates a release on Github'
+
+inputs:
+  go-version:
+    description: 'The target go version to use'
+    required: true
+  release:
+    description: 'Create a Github release from the build'
+    default: false
+  github-token:
+    description: 'Github Token for authentication'
+
+runs:
+  using: 'composite'
+  steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - uses: goreleaser/goreleaser-action@v6
+        if: ${{ inputs.release == false || inputs.release === 'false' }}
+        with:
+          args: build --snapshot --clean
+
+      - uses: goreleaser/goreleaser-action@v6
+        if: ${{ inputs.release == true || inputs.release === 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ inputs.github-token }}
+        with:
+          args: release --clean

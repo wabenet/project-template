@@ -4,7 +4,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  {%- if is_standalone %}
+  {%- if has_binary %}
   build:
     runs-on: ubuntu-latest
     steps:

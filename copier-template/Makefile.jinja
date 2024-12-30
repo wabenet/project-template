@@ -20,7 +20,7 @@ lint:
 
 .PHONY: test
 test:{% if use_protobuf %} api{% endif %}
-	{%- if is_standalone %}
+	{%- if has_binary %}
 	go test -cover -race ./...
 	{%- else %}
 	go test -cover -race ./pkg/...
@@ -28,7 +28,7 @@ test:{% if use_protobuf %} api{% endif %}
 
 .PHONY: build
 build:{% if use_protobuf %} api{% endif %}
-	{%- if is_standalone %}
+	{%- if has_binary %}
 	goreleaser build --snapshot --clean
 	{%- endif %}
 
@@ -38,5 +38,5 @@ build:{% if use_protobuf %} api{% endif %}
 api: $(shell find api -name *.proto | sed 's|\.proto|.pb.go|g' | xargs)
 
 %.pb.go: %.proto
-	protoc -I ./api --go_out=plugins=grpc:. --go_opt=module=github.com/wabenet/dodo-{{ name }} $<
+	protoc -I ./api --go_out=plugins=grpc:. --go_opt=module={{ github_url }} $<
 {%- endif %}

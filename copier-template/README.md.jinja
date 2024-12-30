@@ -1,13 +1,14 @@
-![release](https://img.shields.io/github/v/release/wabenet/dodo-{{ name }}?sort=semver)
-![build](https://img.shields.io/github/workflow/status/wabenet/dodo-{{ name }}/CI?logo=github)
-![codecov](https://img.shields.io/codecov/c/github/wabenet/dodo-{{ name }}?logo=codecov)
-![codeclimate](https://img.shields.io/codeclimate/maintainability/wabenet/dodo-{{ name }}?logo=codeclimate)
-![license](https://img.shields.io/github/license/wabenet/dodo-{{ name }})
+![release](https://img.shields.io/github/v/release/{{ github_org }}/{{ github_repo }}?sort=semver)
+![build](https://img.shields.io/github/workflow/status/{{ github_org }}/{{ github_repo }}/CI?logo=github)
+![codecov](https://img.shields.io/codecov/c/github/{{ github_org }}/{{ github_repo }}?logo=codecov)
+![codeclimate](https://img.shields.io/codeclimate/maintainability/{{ github_org }}/{{ github_repo }}?logo=codeclimate)
+![license](https://img.shields.io/github/license/{{ github_org }}/{{ github_repo }})
 
-# dodo {{ name }} plugin
+# {{ project_name }} {% if is_plugin %}plugin{% endif %}
 
 {{ description }}
 
+{%- if is_plugin %}
 ## installation
 
 This plugin is already included in the dodo default distribution.
@@ -17,12 +18,13 @@ following generate config:
 
 ```yaml
 plugins:
-  - import: github.com/wabenet/dodo-{{ name }}
+  - import: {{ github_url }}
 ```
 
 Alternatively, you can install it as a standalone plugin by downloading the
-correct file for your system from the [releases page](https://github.com/wabenet/dodo-{{ name }}/releases),
+correct file for your system from the [releases page](https://{{ github_url }}/releases),
 then copy it into the dodo plugin directory (`${HOME}/.dodo/plugins`).
+{%- endif %}
 
 ## license & authors
 

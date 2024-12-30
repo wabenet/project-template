@@ -7,7 +7,7 @@ _jinja_extensions:
 
 name:
   type: str
-  help: What is the plugin name?
+  help: What is the project name?
 
 description:
   type: str
@@ -18,14 +18,17 @@ lifecycle:
   help: What status is the project in?
   default: experimental
 
-is_standalone:
-  type: bool
-  help: Create a main entrypoint and build a standalone plugin binary?
-  default: true
+flavour:
+  type: str
+  help: What type of project is this?
+  choices:
+    Standalone CLI Tool: tool
+    Golang Library: library
+    Dodo plugin: plugin
 
 use_protobuf:
   type: bool
-  help: Does the project add new plugin types with probuf definitions?
+  help: Does the project define GRPC APIs?
   default: false
 
 # Versions - will not be prompted

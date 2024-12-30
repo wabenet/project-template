@@ -3,9 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/wabenet/dodo-{{ name }}"
+	"{{ github_url }}"
 )
 
 func main() {
+	{%- if is_plugin %}
 	os.Exit(plugin.RunMe())
+	{%- endif %}
 }

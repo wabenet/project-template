@@ -9,25 +9,37 @@ def git_config(configkey):
 
 class ContextUpdater(ContextHook):
     def hook(self, context):
-        git_name = git_config('user.name')
-        git_email = git_config('user.email')
+        values = {}
 
-        name = context['name']
-        flavour = context['flavour']
+        # User Information
+        values['git_user_name']= git_config('user.name')
+        values['git_user_email'] = git_config('user.email')
 
-        project_name = "dodo-{}".format(name) if flavour == 'plugin' else name
-        github_repo = project_name
-        github_org = 'wabenet'
+        # Project Information
+        values['project_name'] = context['name']
+        if context['archetype'] == 'plugin':
+            values['project_name'] = "dodo-{}".format(context['name'])
+        values['github_repo'] = values['project_name']
+        values['github_org'] = 'wabenet'
+        values['github_url'] = "github.com/{}/{}".format(values['github_org'], values['github_repo'])
 
-        return {
-            'git_user_name': git_name,
-            'git_user_email': git_email,
-            'project_name': project_name,
-            'github_repo': github_repo,
-            'github_org': github_org,
-            'github_url': "github.com/{}/{}".format(github_org, github_repo),
-            'has_binary': flavour in {'tool', 'plugin'},
-            'is_plugin': flavour == 'plugin',
-            'binary_name': project_name,
-        }
+        # Components
+        components = context['components'] + context['custom_components']
 
+        ## Archetypes
+        if context['archetype'] == 'tool':
+            components += 'binary'
+        if context['archetype'] == 'other':
+            if context['archetype_other'] == 'plugin':
+                components += 'binary'
+                components += 'plugin'
+
+        values['binary'] = 'binary' in components
+        values['image'] = 'image' in components
+        values['protobuf'] = 'protobuf' in components
+        values['plugin'] = 'plugin' in components
+
+        values['binary_name'] = values['project_name']
+        values['image_name'] = "{}/{}".format(values['github_org'], values['github_repo'])
+
+        return values

@@ -4,7 +4,7 @@ backdrops:
       steps: |
         FROM golang:{{ go_version }}
         RUN apt-get update && apt-get install -y git bash curl tree make
-        {%- if use_protobuf %}
+        {%- if protobuf %}
         RUN apt-get install -y libprotobuf-dev protobuf-compiler
         RUN go install github.com/golang/protobuf/protoc-gen-go@latest
         {%- endif %}

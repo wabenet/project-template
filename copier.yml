@@ -5,6 +5,8 @@ _jinja_extensions:
     - 'jinja2_time.TimeExtension'
     - 'extensions/context.py:ContextUpdater'
 
+# Basic info
+
 name:
   type: str
   help: What is the project name?
@@ -18,18 +20,42 @@ lifecycle:
   help: What status is the project in?
   default: experimental
 
-flavour:
+# Component selection
+
+archetype:
   type: str
   help: What type of project is this?
   choices:
-    Standalone CLI Tool: tool
+    CLI Tool: tool
     Golang Library: library
-    Dodo plugin: plugin
+    Other: other
 
-use_protobuf:
-  type: bool
-  help: Does the project define GRPC APIs?
-  default: false
+archetype_other:
+  type: str
+  help: What type of project is this?
+  when: "{{ archetype == 'other' }}"
+  choices:
+    Dodo plugin: plugin
+    Custom: custom
+
+# Standard components, usually defined by archetype
+custom_components:
+  type: str
+  help: Which components does the project use?
+  when: "{{ archetype == 'other' and archetype_other == 'custom' }}"
+  multiselect: true
+  choices:
+    Binary Release: binary
+    Plugin Stubs: plugin
+
+# Additional components that each archetype can use
+components:
+  type: str
+  help: Which components does the project use?
+  multiselect: true
+  choices:
+    Docker Image: image
+    GRPC APIs: protobuf
 
 # Versions - will not be prompted
 

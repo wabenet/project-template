@@ -19,7 +19,7 @@ lint:
 	golangci-lint run
 
 .PHONY: test
-test:{% if use_protobuf %} api{% endif %}
+test:{% if protobuf %} api{% endif %}
 	{%- if has_binary %}
 	go test -cover -race ./...
 	{%- else %}
@@ -27,12 +27,12 @@ test:{% if use_protobuf %} api{% endif %}
 	{%- endif %}
 
 .PHONY: build
-build:{% if use_protobuf %} api{% endif %}
-	{%- if has_binary %}
+build:{% if protobuf %} api{% endif %}
+	{%- if binary %}
 	goreleaser build --snapshot --clean
 	{%- endif %}
 
-{%- if use_protobuf %}
+{%- if protobuf %}
 
 .PHONY: api
 api: $(shell find api -name *.proto | sed 's|\.proto|.pb.go|g' | xargs)

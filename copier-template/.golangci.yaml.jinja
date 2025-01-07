@@ -39,11 +39,15 @@ linters-settings:
           - "$gostd"
           - "github.com/wabenet"
           - "github.com/hashicorp"
+	  {%- if binary %}
           - "github.com/spf13/cobra"
           - "github.com/spf13/viper"
+	  {%- endif %}
+	  {%- if protobuf %}
           - "google.golang.org/grpc"
           - "google.golang.org/protobuf"
           - "github.com/golang/protobuf"
+	  {%- endif %}
         deny:
           - pkg: reflect
             desc: Please don't use reflect package
@@ -52,4 +56,5 @@ linters-settings:
           - "$test"
         allow:
           - "$gostd"
+          - "github.com/wabenet"
           - "github.com/stretchr/testify"

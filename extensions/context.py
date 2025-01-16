@@ -17,22 +17,26 @@ class ContextUpdater(ContextHook):
 
         # Project Information
         values['project_name'] = context['name']
-        if context['archetype'] == 'plugin':
+        if context['archetype'] == 'other' and context['archetype_other'] == 'plugin':
             values['project_name'] = "dodo-{}".format(context['name'])
+
         values['github_repo'] = values['project_name']
         values['github_org'] = 'wabenet'
         values['github_url'] = "github.com/{}/{}".format(values['github_org'], values['github_repo'])
 
         # Components
-        components = context['components'] + context['custom_components']
+        components = []
+        components += context['components']
 
         ## Archetypes
         if context['archetype'] == 'tool':
-            components += 'binary'
+            components += ['binary']
         if context['archetype'] == 'other':
             if context['archetype_other'] == 'plugin':
-                components += 'binary'
-                components += 'plugin'
+                components += ['binary']
+                components += ['plugin']
+            if context['archetype_other'] == 'custom':
+                components += context['custom_components']
 
         values['binary'] = 'binary' in components
         values['image'] = 'image' in components

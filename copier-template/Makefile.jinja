@@ -20,11 +20,7 @@ lint:
 
 .PHONY: test
 test:{% if protobuf %} api{% endif %}
-	{%- if has_binary %}
 	go test -cover -race ./...
-	{%- else %}
-	go test -cover -race ./pkg/...
-	{%- endif %}
 
 .PHONY: build
 build:{% if protobuf %} api{% endif %}

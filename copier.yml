@@ -66,3 +66,7 @@ go_version:
 golangci_version:
   default: "v2.1.2"
   when: false
+
+protobuf_version:
+  default: "30.2"
+  when: false

@@ -1,0 +1,22 @@
+---
+name: Docker
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  wabe-project-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./actions/docker-build
+        with:
+          name: wabenet/wabe-project-build
+          tag: ${{ github.ref_name }}
+          push: true
+          context: docker/wabe-project-build
+          dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -9,6 +9,10 @@ clean:
 fmt:
 	go fmt ./...
 
+.PHONY: copier-update
+copier-update:
+	copier update --trust
+
 .PHONY: update
 update:
 	go list -f '{{ '{{' }}if not (or .Main .Indirect){{ '}}' }}{{ '{{' }}.Path{{ '}}' }}{{ '{{' }}end{{ '}}' }}' -m all | xargs --no-run-if-empty go get

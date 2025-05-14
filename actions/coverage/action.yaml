@@ -3,9 +3,6 @@ name: 'Tests and Code Coverage'
 description: 'Runs tests and uploads the coverage reports to CodeClimate and Codecov'
 
 inputs:
-  go-version:
-    description: 'The target go version to use'
-    required: true
   cc-reporter-id:
     description: 'CodeClimate test reporter ID'
     required: true
@@ -17,28 +14,20 @@ runs:
       with:
         fetch-depth: 2
 
-    - uses: actions/setup-go@v5
+    - name: Run test coverage
+      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
+      env:
+        CC_TEST_REPORTER_ID: ${{ inputs.cc-reporter-id }}
       with:
-        go-version: ${{ inputs.go-version }}
-
-    - name: Install CodeClimate test reporter
-      shell: bash
-      run: |
-        curl -Lo ./cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-
-    - name: Run tests with coverage
-      shell: bash
-      run: go test -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
+        entrypoint: make
+        args: coverage-report
 
     - name: Upload to codecov
       uses: codecov/codecov-action@v5
 
-    - name: Upload to codeclimate
-      shell: bash
-      env:
-        CC_TEST_REPORTER_ID: ${{ inputs.cc-reporter-id }}
-      run: |
-        cp coverage.txt c.out
-        ./cc-test-reporter after-build -t gocov -p $(go list -m)
+    - name: Run linters
+      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
+      with:
+        entrypoint: make
+        args: lint
+

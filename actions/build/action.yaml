@@ -3,9 +3,6 @@ name: 'Build'
 description: 'Builds the code and optionally creates a release on Github'
 
 inputs:
-  go-version:
-    description: 'The target go version to use'
-    required: true
   release:
     description: 'Create a Github release from the build'
     default: false
@@ -15,20 +12,20 @@ inputs:
 runs:
   using: 'composite'
   steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: ${{ inputs.go-version }}
+    - name: Build
+      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
+      if: ${{ inputs.release == false || inputs.release == 'false' }}
+      with:
+        entrypoint: make
+        args: test build
 
-      - uses: goreleaser/goreleaser-action@v6
-        if: ${{ inputs.release == false || inputs.release == 'false' }}
-        with:
-          args: build --snapshot --clean
-
-      - uses: goreleaser/goreleaser-action@v6
-        if: ${{ inputs.release == true || inputs.release == 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ inputs.github-token }}
-        with:
-          args: release --clean
+    - name: Release
+      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
+      if: ${{ inputs.release == true || inputs.release == 'true' }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      with:
+        entrypoint: make
+        args: release

@@ -4,14 +4,10 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  {%- if binary %}
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: wabenet/project-template/actions/build@{{ _commit }}
-        with:
-          go-version: "{{ go_version }}"
-  {%- endif %}
 
   coverage:
     runs-on: ubuntu-latest

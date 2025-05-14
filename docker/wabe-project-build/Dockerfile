@@ -33,6 +33,11 @@ actions:
       - copier-templates-extensions
       - jinja2-time
 
+  codeclimate:
+    type: fetch
+    source: "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-{{ os }}-{{ arch }}"
+    destination: "/bin/cc-test-reporter"
+
   gopath:
     type: environment
     variables:

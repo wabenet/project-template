@@ -9,22 +9,22 @@ _jinja_extensions:
 
 name:
   type: str
-  help: What is the project name?
+  help: Project name
 
 description:
   type: str
-  help: Enter a short description for the plugin
+  help: Project description
 
 lifecycle:
   type: str
-  help: What status is the project in?
+  help: Project status
   default: experimental
 
 # Component selection
 
 archetype:
   type: str
-  help: What type of project is this?
+  help: Project type
   choices:
     CLI Tool: tool
     Golang Library: library
@@ -32,7 +32,7 @@ archetype:
 
 archetype_other:
   type: str
-  help: What type of project is this?
+  help: Project type
   when: "{{ archetype == 'other' }}"
   choices:
     Dodo plugin: plugin
@@ -41,7 +41,7 @@ archetype_other:
 # Standard components, usually defined by archetype
 custom_components:
   type: str
-  help: Which components does the project use?
+  help: Custom generatated components
   when: "{{ archetype == 'other' and archetype_other == 'custom' }}"
   multiselect: true
   choices:
@@ -51,7 +51,7 @@ custom_components:
 # Additional components that each archetype can use
 components:
   type: str
-  help: Which components does the project use?
+  help: Additional components
   multiselect: true
   choices:
     Docker Image: image

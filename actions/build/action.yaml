@@ -22,12 +22,12 @@ runs:
           go-version: ${{ inputs.go-version }}
 
       - uses: goreleaser/goreleaser-action@v6
-        if: ${{ inputs.release == false || inputs.release === 'false' }}
+        if: ${{ inputs.release == false || inputs.release == 'false' }}
         with:
           args: build --snapshot --clean
 
       - uses: goreleaser/goreleaser-action@v6
-        if: ${{ inputs.release == true || inputs.release === 'true' }}
+        if: ${{ inputs.release == true || inputs.release == 'true' }}
         env:
           GITHUB_TOKEN: ${{ inputs.github-token }}
         with:

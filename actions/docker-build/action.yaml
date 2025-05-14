@@ -42,5 +42,5 @@ runs:
         tags: ${{ inputs.name }}:${{ inputs.tag }}
         context: ${{ inputs.context }}
         file: ${{ inputs.context }}/${{ inputs. dockerfile }}
-        push: ${{ inputs.push}}
+        push: ${{ inputs.push }}
         platforms: linux/amd64,linux/arm64

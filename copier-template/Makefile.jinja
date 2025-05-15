@@ -31,7 +31,7 @@ coverage-report:
 	cc-test-reporter before-build
 	go test -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
 	cp coverage.txt c.out
-	cc-test-reporter after-build -t gocov -p $(go list -m)
+	cc-test-reporter after-build -t gocov -p $$(go list -m)
 
 .PHONY: build
 build:{% if protobuf %} api{% endif %}

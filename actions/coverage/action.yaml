@@ -15,19 +15,18 @@ runs:
         fetch-depth: 2
 
     - name: Run test coverage
-      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
       env:
+        GOPATH: /home/runner/go
         CC_TEST_REPORTER_ID: ${{ inputs.cc-reporter-id }}
-      with:
-        entrypoint: make
-        args: coverage-report
+      shell: bash
+      run: make coverage-report
 
     - name: Upload to codecov
       uses: codecov/codecov-action@v5
 
     - name: Run linters
-      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
-      with:
-        entrypoint: make
-        args: lint
+      shell: bash
+      env:
+        GOPATH: /home/runner/go
+      run: make lint
 

@@ -1,18 +1,26 @@
 ---
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: "wabenet/wabe-project-build:{{ _commit }}"
+      options: --user runner
     steps:
       - uses: wabenet/project-template/actions/build@{{ _commit }}
 
   coverage:
     runs-on: ubuntu-latest
+    container:
+      image: "wabenet/wabe-project-build:{{ _commit }}"
+      options: --user runner
     steps:
       - uses: wabenet/project-template/actions/coverage@{{ _commit }}
         with:
-          go-version: "{{ go_version }}"
           cc-reporter-id: ${{ '{{' }} secrets.CC_TEST_REPORTER_ID {{ '}}' }}

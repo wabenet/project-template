@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: "wabenet/wabe-project-build:{{ _commit }}"
+      options: --user runner
     steps:
       - uses: wabenet/project-template/actions/build@{{ _commit }}
         with:

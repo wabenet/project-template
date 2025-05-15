@@ -13,19 +13,20 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
 
     - name: Build
-      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
       if: ${{ inputs.release == false || inputs.release == 'false' }}
-      with:
-        entrypoint: make
-        args: test build
+      shell: bash
+      env:
+        GOPATH: /home/runner/go
+      run: make test build
 
     - name: Release
-      uses: docker://wabenet/wabe-project-build@${{ github.action_ref }}
       if: ${{ inputs.release == true || inputs.release == 'true' }}
+      shell: bash
       env:
+        GOPATH: /home/runner/go
         GITHUB_TOKEN: ${{ inputs.github-token }}
-      with:
-        entrypoint: make
-        args: release
+      run: make release

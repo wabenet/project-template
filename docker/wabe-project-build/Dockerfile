@@ -38,6 +38,13 @@ actions:
     source: "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-{{ os }}-{{ arch }}"
     destination: "/bin/cc-test-reporter"
 
+  runner-user:
+    type: script
+    script: |
+      echo "Create user for GitHub Actions"
+      addgroup --gid 201 runner
+      adduser --uid 1001 --gid 201 runner
+
   gopath:
     type: environment
     variables:

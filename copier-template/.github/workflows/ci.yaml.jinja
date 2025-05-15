@@ -6,13 +6,14 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: "wabenet/wabe-project-build:{{ _commit }}"
     steps:
       - uses: wabenet/project-template/actions/build@{{ _commit }}
 
   coverage:
     runs-on: ubuntu-latest
+    container: "wabenet/wabe-project-build:{{ _commit }}"
     steps:
       - uses: wabenet/project-template/actions/coverage@{{ _commit }}
         with:
-          go-version: "{{ go_version }}"
           cc-reporter-id: ${{ '{{' }} secrets.CC_TEST_REPORTER_ID {{ '}}' }}

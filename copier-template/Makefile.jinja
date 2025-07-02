@@ -18,13 +18,17 @@ update:
 	go list -f '{{ '{{' }}if not (or .Main .Indirect){{ '}}' }}{{ '{{' }}.Path{{ '}}' }}{{ '{{' }}end{{ '}}' }}' -m all | xargs --no-run-if-empty go get
 	go mod tidy
 
-.PHONY: lint
-lint:
-	golangci-lint run
+.PHONY: build
+build:{% if protobuf %} build-proto{% endif %}{% if binary %} build-go{% endif %}
+
+.PHONY: release
+release:{% if binary %} release-go{% endif %}
 
 .PHONY: test
-test:{% if protobuf %} api{% endif %}
-	go test -race -cover ./...
+test: test-go
+
+.PHONY: lint
+lint:{% if protobuf %} lint-proto{% endif %} lint-go
 
 .PHONY: coverage-report
 coverage-report:
@@ -33,25 +37,32 @@ coverage-report:
 	cp coverage.txt c.out
 	cc-test-reporter after-build -t gocov -p $$(go list -m)
 
-.PHONY: build
-build:{% if protobuf %} api{% endif %}
-	{%- if binary %}
-	goreleaser build --snapshot --clean
-	{%- endif %}
+.PHONY: test-go
+test-go:{% if protobuf %} build-proto{% endif %}
+	go test -race -cover ./...
+
+.PHONY: lint-go
+lint-go:
+	golangci-lint run
 
 {%- if binary %}
 
-.PHONY: release
-release:
+.PHONY: build-go
+build-go:
+	goreleaser build --snapshot --clean
+
+.PHONY: release-go
+release-go:
 	goreleaser release --clean
 {%- endif %}
 
 {%- if protobuf %}
 
-.PHONY: api
-api: $(shell find api -name *.proto | sed 's|\.proto|.pb.go|g' | xargs)
+.PHONY: lint-proto
+lint-proto:
+	buf lint
 
-%.pb.go: %.proto
-	protoc -I ./api --go_out=. --go_opt=module={{ github_url }} $<
-	protoc -I ./api --go-grpc_out=. --go-grpc_opt=module={{ github_url }} $<
+.PHONY: build-proto
+build-proto:
+	buf generate
 {%- endif %}

@@ -3,7 +3,7 @@ package plugin
 import (
 	"os"
 
-	"{{ github_url }}/pkg/plugin"
+	"github.com/wabenet/dodo-core/pkg/plugin"
 )
 
 func RunMe() int {
@@ -13,11 +13,11 @@ func RunMe() int {
 		m.ServePlugins( /* Add non-command plugins */ )
 
 		return 0
-	} else {
-		/* Execute root command plugin */
-
-		return 0
 	}
+
+	/* Execute root command plugin */
+
+	return 0
 }
 
 func IncludeMe(m plugin.Manager) {

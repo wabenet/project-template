@@ -2,8 +2,10 @@ package main
 
 import (
 	"os"
+	{%- if plugin %}
 
-	"{{ github_url }}"
+	plugin "{{ github_url }}"
+	{%- endif %}
 )
 
 func main() {

@@ -10,7 +10,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 2
 
@@ -22,7 +22,7 @@ runs:
       run: make coverage-report
 
     - name: Upload to codecov
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
 
     - name: Run linters
       shell: bash

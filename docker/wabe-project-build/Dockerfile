@@ -26,7 +26,7 @@ actions:
   golang:
     type: golang
     install:
-      - github.com/goreleaser/goreleaser@latest
+      - github.com/goreleaser/goreleaser/v2@latest
       - github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 
   copier:
@@ -45,8 +45,8 @@ actions:
     type: script
     script: |
       echo "Create user for GitHub Actions"
-      addgroup --gid 201 runner
-      adduser --uid 1001 --gid 201 runner
+      groupadd --gid 201 runner
+      useradd --uid 1001 --gid 201 runner
 
   gopath:
     type: environment

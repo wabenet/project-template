@@ -46,7 +46,7 @@ actions:
     script: |
       echo "Create user for GitHub Actions"
       groupadd --gid 201 runner
-      useradd --uid 1001 --gid 201 runner
+      useradd --uid 1001 --gid 201 --create-home runner
 
   gopath:
     type: environment
